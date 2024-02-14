@@ -1,4 +1,4 @@
-function runTest(start, goal)
+function runTest(start)
     asize = 5
     arr = Array{Vector}(undef, asize)
     arr[1] = [(2, 10), (4, 30), (5, 100)]
@@ -34,7 +34,12 @@ function runTest(start, goal)
         path = []
         v=k
         while !(v==start)
-            v = p[v]
+            try
+                v = p[v]
+            catch e
+                path = [0]
+                break
+            end
             push!(path,v)
         end
         path = reverse(path)
@@ -44,4 +49,4 @@ function runTest(start, goal)
 end
 
 
-runTest(1, 5)
+runTest(3)
