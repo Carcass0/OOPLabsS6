@@ -18,9 +18,25 @@ function initializer(startTime::Float64, inintialCondition::Array{Float64})
 end
 
 
-function F(t::Float64, Y::Array{Float64}, rungeKutt::RungeKuttMethod)
+#для y''(t) + y(t) = 0
+function oldF(t::Float64, Y::Array{Float64}, rungeKutt::RungeKuttMethod)
     rungeKutt.FY[1] = Y[2];
     rungeKutt.FY[2] = -Y[1];
+    return (rungeKutt.FY, rungeKutt);
+end
+
+
+#для y''(t) + 2 * y(t) + t = 0
+function F(t::Float64, Y::Array{Float64}, rungeKutt::RungeKuttMethod)
+    rungeKutt.FY[1] = Y[2];
+    rungeKutt.FY[2] = -2 * Y[1] - t;
+    return (rungeKutt.FY, rungeKutt);
+end
+
+
+#для y'(t) - 5 * y(t) = 0
+function alternativeF(t::Float64, Y::Array{Float64}, rungeKutt::RungeKuttMethod)
+    rungeKutt.FY[1] = 5 * Y[1];
     return (rungeKutt.FY, rungeKutt);
 end
 
@@ -55,7 +71,7 @@ function testInitialize()
     init::Array{Float64} = [0.0, 1.0]
     rungeKutt = initializer(start, init)
     dt::Float16 = 0.001
-    while rungeKutt.currentTime <= 15
+    while rungeKutt.currentTime <= 15.001
         print("Time = $(rungeKutt.currentTime); Func = $(rungeKutt.solution[1]); d Func/ d x = $(rungeKutt.solution[2])\n")
         rungeKutt = nextStep(dt, rungeKutt)
     end

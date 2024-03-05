@@ -63,7 +63,21 @@ function initFlows(graph)
 end
 
 
-function initGraph()
+function printMatrix(a::Matrix)
+    for i in 1:size(a, 1)
+        for j in 1:size(a, 2)
+            if a[i, j] >= 0
+                print(" $(a[i, j]) ")
+            else
+                print("$(a[i, j]) ") 
+            end
+        end
+        println()
+    end
+end
+
+
+function oldinitGraph()
     g = MyGraph(6, zeros(Int, 6, 6), zeros(Int, 6, 6))
     addEdge!(g, 1, 2, 7)
     addEdge!(g, 1, 3, 5)
@@ -77,11 +91,26 @@ function initGraph()
 end
 
 
+function initGraph()
+    g = MyGraph(6, zeros(Int, 6, 6), zeros(Int, 6, 6))
+    open("test.txt") do f
+        while !eof(f)
+            s=readline(f)
+            arr = split(s, " ")
+            arr = parse.(Int, arr)
+            addEdge!(g, arr[1], arr[2], arr[3])
+        end
+    end
+    return g
+end
+
+
 function runTest()
     graph = initGraph()
     initFlows(graph)
     potok = edmondsKarp(graph, 1, 6)
     println("Максимальный поток в графе: ", potok)
+    printMatrix(graph.currentFlows)
 end
 
 

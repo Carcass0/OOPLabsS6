@@ -1,11 +1,12 @@
 function runTest(start)
-    asize = 5
+    asize = 7
     arr = Array{Vector}(undef, asize)
     arr[1] = [(2, 10), (4, 30), (5, 100)]
     arr[2] = [(3, 50)]
     arr[3] = [(5, 10)]
     arr[4] = [(3, 20), (5, 60)]
     arr[5] = [(2, 60)]
+    arr[6] = []
     d = fill(Inf, asize)
     d[start] = 0
     u = fill(false, asize)
@@ -49,4 +50,4 @@ function runTest(start)
 end
 
 
-runTest(3)
+runTest(1)
