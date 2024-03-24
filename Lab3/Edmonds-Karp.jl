@@ -106,11 +106,14 @@ end
 
 
 function runTest()
-    graph = initGraph()
-    initFlows(graph)
-    potok = edmondsKarp(graph, 1, 6)
-    println("Максимальный поток в графе: ", potok)
-    printMatrix(graph.currentFlows)
+    basegraph = initGraph()
+    for i in 2:basegraph.nodeNum
+        graph = initGraph()
+        initFlows(graph)
+        potok = edmondsKarp(graph, 1, i)
+        println("Максимальный поток в графе: ", potok)
+        printMatrix(graph.currentFlows)
+    end
 end
 
 
